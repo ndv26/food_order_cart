@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useCallback } from "react";
+import "./App.css";
+import Header from "./components/Layout/Header";
+import Meals from "./components/Meals/Meals";
+import Cart from "./components/Cart/Cart";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [cartIsShown, setCartIsShown] = useState(false);
+
+    // useCallback for not render the Header components everytime cartIsShown
+    const showCartHandler = useCallback(() => {
+        setCartIsShown(true);
+    }, []);
+
+    const hideCartHandler = () => {
+        setCartIsShown(false);
+    };
+
+    return (
+        <div className="App">
+            {cartIsShown && <Cart hideCartHandler={hideCartHandler} />}
+            <Header showCartHandler={showCartHandler} />
+            <main>
+                <Meals />
+            </main>
+        </div>
+    );
 }
 
 export default App;
